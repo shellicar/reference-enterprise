@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": false,
+    "strictNullChecks": true,
+    "types": ["node"],
+    "target": "es2024",
+    "moduleResolution": "bundler",
+    "module": "es2022"
+  }
+}
