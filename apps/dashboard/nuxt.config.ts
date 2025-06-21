@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   devServer: {
-    port: 3002,
+    port: 3001,
   },
   extends: ['@shellicar-reference-enterprise/ui'],
   telemetry: {

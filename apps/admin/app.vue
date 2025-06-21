@@ -5,6 +5,6 @@ import { HelloWorld } from '@shellicar-reference-enterprise/ui/components';
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <HelloWorld />
+    <HelloWorld message="admin" />
   </div>
 </template>
