@@ -2,12 +2,12 @@
   "name": "@shellicar-reference-enterprise/worker",
   "version": "1.0.0",
   "description": "Worker service for background processing and long-running tasks",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "type": "module",
   "scripts": {
     "build": "tsx build.mts",
     "dev": "tsx src/index.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/main.js",
     "test": "vitest run"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.14.4",
+    "@temporalio/worker": "^1.11.8",
     "hono": "^4.8.2"
   }
 }
