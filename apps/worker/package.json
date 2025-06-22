@@ -1,0 +1,25 @@
+{
+  "name": "@shellicar-reference-enterprise/worker",
+  "version": "1.0.0",
+  "description": "Worker service for background processing and long-running tasks",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsx build.mts",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "@shellicar-reference-enterprise/typescript-config": "workspace:^",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.4",
+    "hono": "^4.8.2"
+  }
+}
