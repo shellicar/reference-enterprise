@@ -17,6 +17,8 @@
   "devDependencies": {
     "@shellicar-reference-enterprise/typescript-config": "workspace:^",
     "esbuild": "^0.25.5",
+    "esbuild-clean-plugin": "^2.0.0",
+    "glob": "^11.0.3",
     "tsx": "^4.20.3",
     "vitest": "^3.2.4"
   },

@@ -217,6 +217,12 @@ importers:
       esbuild:
         specifier: ^0.25.5
         version: 0.25.5
+      esbuild-clean-plugin:
+        specifier: ^2.0.0
+        version: 2.0.0(esbuild@0.25.5)
+      glob:
+        specifier: ^11.0.3
+        version: 11.0.3
       tsx:
         specifier: ^4.20.3
         version: 4.20.3
