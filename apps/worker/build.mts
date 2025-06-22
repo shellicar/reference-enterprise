@@ -13,6 +13,7 @@ await build({
   format: 'esm',
   external: ['@temporalio/worker'],
   platform: 'node',
+  target: 'es2023',
   treeShaking: true,
   minify: true,
   sourcemap: true,
@@ -21,5 +22,5 @@ await build({
   keepNames: true,
   inject,
   plugins: [cleanPlugin({}), versionPlugin({})],
-  tsconfig: './tsconfig.json',
+  tsconfig: 'tsconfig.json',
 });

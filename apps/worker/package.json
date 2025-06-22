@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsx build.mts",
-    "dev": "tsx src/index.ts",
-    "start": "node dist/main.js",
+    "dev": "tsx src/main.ts",
+    "start": "node .",
     "test": "vitest run"
   },
   "keywords": [],

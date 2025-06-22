@@ -15,7 +15,9 @@ export class TemporalWorker implements IWorkerModule {
     console.log('Starting Temporal worker with options:', this.options);
     this.worker = await Worker.create(this.options);
 
-    this.promise = this.worker.run();
+    this.promise = this.worker.run().catch((err) => {
+      console.error('Error running Temporal worker:', err);
+    });
   }
   public [Symbol.dispose](): void {
     this.worker?.shutdown();
