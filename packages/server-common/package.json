@@ -1,0 +1,29 @@
+{
+  "name": "@shellicar-reference-enterprise/server-common",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup-node",
+    "dev": "tsup-node --watch"
+  },
+  "exports": {
+    "./*": {
+      "types": "./src/*.ts",
+      "import": "./dist/*.js"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "dependencies": {
+    "@shellicar/winston-azure-application-insights": "^5.0.7",
+    "applicationinsights": "^3.7.0"
+  },
+  "devDependencies": {
+    "@azure/functions": "^4.7.3",
+    "tsup": "^8.5.0"
+  }
+}

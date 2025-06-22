@@ -1,0 +1,3 @@
+{
+  "extends": ["./.nuxt/tsconfig.json", "@shellicar-reference-enterprise/typescript-config/nuxt/tsconfig.json"]
+}

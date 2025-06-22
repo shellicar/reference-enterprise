@@ -1,0 +1,27 @@
+{
+  "name": "@shellicar-reference-enterprise/root",
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac",
+  "scripts": {
+    "lint": "biome lint",
+    "format": "biome format",
+    "ci": "biome ci --diagnostic-level=error",
+    "ci:fix": "biome check --diagnostic-level=error --fix",
+    "type-check": "turbo run type-check",
+    "update-readme": "sh ./update-readme.sh",
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "clean": "turbo run clean",
+    "test": "turbo run test",
+    "dev": "turbo run dev --concurrency 15",
+    "list-mismatches": "syncpack list-mismatches",
+    "fix-mismatches": "syncpack fix-mismatches",
+    "updates": "npm-check-updates --workspaces"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "lefthook": "^1.11.14",
+    "npm-check-updates": "^18.0.1",
+    "syncpack": "^13.0.4",
+    "turbo": "^2.5.4"
+  }
+}

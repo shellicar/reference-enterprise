@@ -1,0 +1,9 @@
+{
+  "extends": "@shellicar-reference-enterprise/typescript-config/azure-functions/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

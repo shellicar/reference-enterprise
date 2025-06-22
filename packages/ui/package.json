@@ -1,0 +1,29 @@
+{
+  "name": "@shellicar-reference-enterprise/ui",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./nuxt.config.ts",
+  "exports": {
+    "./components": {
+      "import": "./components/index.ts",
+      "require": "./components/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "nuxi dev .playground",
+    "dev:prepare": "nuxt prepare .playground",
+    "build": "nuxt build .playground",
+    "generate": "nuxt generate .playground",
+    "preview": "nuxt preview .playground",
+    "type-check": "nuxt typecheck",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.4.1",
+    "eslint": "^9.29.0",
+    "nuxt": "^3.17.5",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.17",
+    "vue-tsc": "^2.2.10"
+  }
+}

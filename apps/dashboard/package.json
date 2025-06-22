@@ -1,0 +1,19 @@
+{
+  "name": "@shellicar-reference-enterprise/dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "type-check": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@shellicar-reference-enterprise/ui": "workspace:^",
+    "nuxt": "^3.17.5",
+    "vue": "^3.5.16",
+    "vue-router": "^4.5.1"
+  }
+}
