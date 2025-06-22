@@ -1,19 +1,19 @@
-import { HonoServer } from './HonoServer';
-import { TemporalWorker } from './TemporalWorker';
-import type { IWorkerModule } from './interfaces';
+import { serviceProvider } from './core/di/serviceProvider';
+import { HonoServer } from './core/http/HonoServer';
+import { TemporalWorker } from './core/temporal-worker/TemporalWorker';
+import { IWorkerModule } from './interfaces';
 
 const modules = [HonoServer, TemporalWorker] satisfies (typeof IWorkerModule)[];
 
 const main = async () => {
-  const classes = modules.map((Module) => new Module());
-  const startPromises = classes.map((instance) => instance.start());
+  using scope = serviceProvider.createScope();
+  const workers = scope.resolveAll(IWorkerModule);
+  const startPromises = workers.map((instance) => instance.start());
   const result = await Promise.all(startPromises);
-
-  // TODO: Handle graceful shutdown
 
   const termHandler = async (signal: string) => {
     console.log(`Received ${signal}, shutting down gracefully...`);
-    for (const instance of classes) {
+    for (const instance of workers) {
       try {
         await instance[Symbol.asyncDispose]();
       } catch (err) {

@@ -1,7 +1,7 @@
 import { type ServerType, serve } from '@hono/node-server';
 import version from '@shellicar/build-version/version';
 import { Hono } from 'hono';
-import type { IWorkerModule } from './interfaces';
+import type { IWorkerModule } from '../../interfaces';
 
 export class HonoServer implements IWorkerModule {
   private readonly app: Hono;

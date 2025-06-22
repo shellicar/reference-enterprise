@@ -1,5 +1,5 @@
 import { Worker, type WorkerOptions } from '@temporalio/worker';
-import type { IWorkerModule } from './interfaces';
+import type { IWorkerModule } from '../../interfaces';
 
 export class TemporalWorker implements IWorkerModule {
   private readonly options: WorkerOptions;
