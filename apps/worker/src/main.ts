@@ -3,13 +3,12 @@ import { HonoServer } from './core/http/HonoServer';
 import { TemporalWorker } from './core/temporal-worker/TemporalWorker';
 import { IWorkerModule } from './interfaces';
 
-const modules = [HonoServer, TemporalWorker] satisfies (typeof IWorkerModule)[];
-
 const main = async () => {
-  using scope = serviceProvider.createScope();
+  await using scope = serviceProvider.createScope();
   const workers = scope.resolveAll(IWorkerModule);
-  const startPromises = workers.map((instance) => instance.start());
-  const result = await Promise.all(startPromises);
+
+  const abortController = new AbortController();
+  await Promise.all(workers.map((instance) => instance.start()));
 
   const termHandler = async (signal: string) => {
     console.log(`Received ${signal}, shutting down gracefully...`);
@@ -21,11 +20,16 @@ const main = async () => {
       }
     }
     console.log('All modules shut down gracefully.');
+    abortController.abort();
   };
 
   process.on('SIGINT', termHandler);
   process.on('SIGTERM', termHandler);
-  console.log(`PID = ${process.pid}`);
+
+  console.log('Worker modules started successfully.');
+  await new Promise<void>((resolve) => {
+    abortController.signal.addEventListener('abort', () => resolve(), { once: true });
+  });
 };
 
 await main();

@@ -3,8 +3,8 @@ import type { IWorkerModule } from '../../interfaces';
 
 export class TemporalWorker implements IWorkerModule {
   private readonly options: WorkerOptions;
-  private worker: Worker;
-  private promise: Promise<void>;
+  private worker: Worker | null = null;
+  private promise: Promise<void> | null = null;
 
   public constructor() {
     this.options = {
@@ -20,14 +20,25 @@ export class TemporalWorker implements IWorkerModule {
     });
   }
   public [Symbol.dispose](): void {
-    this.worker?.shutdown();
+    this[Symbol.asyncDispose]().catch((err) => {
+      console.error('Error during synchronous disposal of Temporal worker:', err);
+    });
   }
+
   public async [Symbol.asyncDispose](): Promise<void> {
-    try {
-      this.worker?.shutdown();
-      await this.promise;
-    } catch (err) {
-      console.error('Error during worker shutdown:', err);
+    if (this.worker) {
+      try {
+        const state = this.worker.getStatus();
+        switch (state.runState) {
+          case 'RUNNING': {
+            this.worker.shutdown();
+            break;
+          }
+        }
+        await this.promise;
+      } catch (err) {
+        console.error('Error during worker shutdown:', err);
+      }
     }
   }
 }
