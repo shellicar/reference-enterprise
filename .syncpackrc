@@ -1,4 +1,5 @@
 {
+  "dependencyTypes": ["dev", "prod", "peer"],
   "versionGroups": [
     {
       "label": "Use workspace protocol when developing local packages",

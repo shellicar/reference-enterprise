@@ -14,6 +14,7 @@ await build({
   format: 'esm',
   external: ['@azure/functions'],
   platform: 'node',
+  target: 'es2024',
   treeShaking: true,
   minify: true,
   sourcemap: true,
