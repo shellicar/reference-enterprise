@@ -1,6 +1,7 @@
-import { type HttpHandler, app } from '@azure/functions';
+import type { HttpHandler } from '@azure/functions';
 import version from '@shellicar/build-version/version';
-const handler: HttpHandler = () => {
+
+export const handler: HttpHandler = () => {
   return {
     status: 200,
     body: JSON.stringify(version),
@@ -9,9 +10,3 @@ const handler: HttpHandler = () => {
     },
   };
 };
-
-app.http('Version', {
-  handler,
-  methods: ['POST', 'GET'],
-  authLevel: 'anonymous',
-});

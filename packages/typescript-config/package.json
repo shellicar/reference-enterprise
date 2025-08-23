@@ -1,5 +1,6 @@
 {
   "name": "@shellicar-reference-enterprise/typescript-config",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.12.1",
   "devDependencies": {
     "vitest": "^3.2.4"
   }

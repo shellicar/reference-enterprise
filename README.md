@@ -2,7 +2,7 @@
 
 [![Node.js](https://img.shields.io/badge/Node.js-20-5FA04E?logo=nodedotjs)][node]
 [![npm](https://img.shields.io/badge/npm-10-CB3837?logo=npm)][npm]
-[![PNPM](https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm)][pnpm]
+[![pnpm](https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm)][pnpm]
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)][typescript]
 [![nvm](https://img.shields.io/badge/nvm-0.40-F4DD4B?logo=nvm)][nvm]
 [![Docker](https://img.shields.io/badge/Docker-dev-2496ED?logo=docker)][docker]
@@ -64,6 +64,7 @@ Unlike the foundational [`@shellicar/reference-foundation`](https://github.com/s
 
 ### Build Tools
 
+- [`@shellicar/build-clean`](https://github.com/shellicar/build-clean) - Build plugin that automatically cleans unused files from output directories.
 - [`@shellicar/build-version`](https://github.com/shellicar/build-version) - Build plugin that calculates and exposes version information through a virtual module import.
 - [`@shellicar/build-graphql`](https://github.com/shellicar/build-graphql) - Build plugin that loads GraphQL files and makes them available through a virtual module import.
 
@@ -84,26 +85,26 @@ Unlike the foundational [`@shellicar/reference-foundation`](https://github.com/s
 
 ## Repository Structure
 
-This repository follows a structured approach to organizing enterprise applications:
+This repository follows a structured approach to organising enterprise applications:
 
 ```text
 ├── apps/
-│   ├── api/                    # Function App - Customer-facing APIs
-│   ├── integration/            # Function App - Internal/non-customer APIs
+│   ├── api/                    # Function App - User-facing APIs
+│   ├── integration/            # Function App - Internal/non-user APIs
 │   ├── worker/                 # App Service - TemporalIO & long-running processes
-│   ├── webapp/                 # Main web application for users/customers
+│   ├── webapp/                 # Main web application for users
 │   ├── dashboard/              # Internal staff/line of business dashboard
 │   └── admin/                  # Administration interface for mature apps
 ├── packages/
 │   ├── common/                 # Code shared across frontend and backend
 │   ├── server-common/          # Common functionality for Function Apps/worker
-│   ├── ui/                     # Framework-dependent components (Nuxt/Svelte)
+│   ├── ui/                     # Framework-dependent components (Nuxt) and configuration
 │   ├── ui-common/              # Framework-agnostic UI code, validation, schemas
-│   ├── schema-ui/              # Schema for frontend applications
-│   ├── schema-admin/           # Schema for admin interface (optional)
-│   ├── schema-server/          # Schema for APIs
-│   ├── schema-api/             # Schema specifically for API (optional)
-│   ├── schema-integration/     # Schema for integration services (optional)
+│   ├── ui-schema/              # Schema for frontend applications
+│   ├── ui-schema-admin/           # Schema for admin interface (optional)
+│   ├── server-schema/          # Schema for APIs
+│   ├── server-schema-api/             # Schema specifically for API (optional)
+│   ├── server-schema-integration/     # Schema for integration services (optional)
 │   └── typescript-config/      # Shared TypeScript configuration
 ├── infra/                      # Infrastructure as Code (Bicep)
 └── deploy/
@@ -114,12 +115,12 @@ This repository follows a structured approach to organizing enterprise applicati
 
 | Application | Type | Purpose | Technology |
 |-------------|------|---------|------------|
-| `apps/api` | Azure Function App | Customer-facing APIs | Azure Functions with HTTP triggers |
-| `apps/integration` | Azure Function App | Internal/non-customer APIs | Azure Functions for third-party integrations |
+| `apps/api` | Azure Function App | User-facing APIs | Azure Functions with HTTP triggers |
+| `apps/integration` | Azure Function App | Internal/non-user APIs | Azure Functions for third-party integrations |
 | `apps/worker` | Azure App Service | Long-running processes | TemporalIO for workflow orchestration |
-| `apps/webapp` | Web Application | Main user/customer interface | Frontend framework |
-| `apps/dashboard` | Web Application | Internal staff dashboard | Frontend framework |
-| `apps/admin` | Web Application | Administration interface | Frontend framework |
+| `apps/webapp` | Web Application | Main user interface | Vue+Nuxt |
+| `apps/dashboard` | Web Application | Internal staff dashboard | Vue+Nuxt |
+| `apps/admin` | Web Application | Administration interface | Vue+Nuxt |
 
 ## Packages
 
@@ -127,7 +128,7 @@ This repository follows a structured approach to organizing enterprise applicati
 |---------|---------|----------------|---------|
 | `common` | Shared code across frontend and backend | Utilities, types, constants that work everywhere | All apps |
 | `server-common` | Server-side shared functionality | Middleware, auth helpers, server utilities | `api`, `integration`, `worker` |
-| `ui` | Framework-dependent UI components | Nuxt/Svelte components, framework-specific code | `webapp`, `dashboard`, `admin` |
+| `ui` | Framework-dependent UI components | Nuxt components, framework-specific code | `webapp`, `dashboard`, `admin` |
 | `ui-common` | Framework-agnostic UI code | Validation logic, Zod schemas, reusable functions | `webapp`, `dashboard`, `admin` |
 | `schema-server` | Generated types for server APIs | GraphQL codegen types for server-side API consumption | Server applications |
 | `schema-ui` | Generated types for frontend APIs | GraphQL codegen types for client-side API consumption | Frontend applications |
@@ -171,7 +172,7 @@ This repository includes several development tools to maintain code quality and 
 ### Build System
 
 - **Turbo**: Monorepo task orchestration
-- **PNPM Workspaces**: Package management and dependency resolution
+- **pnpm Workspaces**: Package management and dependency resolution
 
 ## Getting Started
 
@@ -205,7 +206,7 @@ The setup script will:
 - Install Node Version Manager (NVM)
 - Install Node.js version from `.nvmrc`
 - Enable Corepack for package manager management
-- Install PNPM via Corepack
+- Install pnpm via Corepack
 - Install Azure Functions Core Tools
 - Install Docker (optional)
 
@@ -214,7 +215,7 @@ The setup script will:
 If you prefer manual installation:
 
 1. **Install Node.js** (version specified in `.nvmrc`)
-2. **Enable Corepack and install PNPM**
+2. **Enable Corepack and install pnpm**
 
    ```sh
    corepack enable
@@ -222,13 +223,13 @@ If you prefer manual installation:
    ```
 
 3. **Install Azure Functions Core Tools**
-   
+
    See [Azure Functions Core Tools documentation](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
 4. **Clone and setup the repository**
 
    ```sh
-   git clone <repository-url>
+   git clone https://github.com/shellicar/reference-enterprise.git
    cd reference-enterprise
    pnpm install
    pnpm build
@@ -256,7 +257,7 @@ pnpm test
 
 This structure provides:
 
-- **Clear separation** between customer-facing and internal services
+- **Clear separation** between user-facing and internal services
 - **Shared code** through common packages
 - **Scalable architecture** that can grow with application complexity
 - **Consistent development** patterns across all applications
@@ -264,7 +265,7 @@ This structure provides:
 
 ## Architecture Approach
 
-This repository follows **Vertical Slice Architecture** - organizing code by feature rather than technical layers. Each feature contains everything it needs (API endpoints, business logic, data access, validation) in one cohesive slice.
+This repository follows **Vertical Slice Architecture** - organising code by feature rather than technical layers. Each feature contains everything it needs (API endpoints, business logic, data access, validation) in one cohesive slice.
 
 ### Why Vertical Slices?
 
@@ -288,7 +289,7 @@ Using document databases (Cosmos DB NoSQL, MongoDB) aligns well with vertical sl
 
 - Features can model data as standalone documents or nested within parent entities
 - Less coupling through shared database schemas
-- Natural fit for feature-based data modeling
+- Natural fit for feature-based data modelling
 
 ### Team Approach
 
@@ -317,16 +318,12 @@ This enterprise reference provides a solid foundation for Azure application work
 [vite]: https://vitejs.dev
 [azure-functions]: https://www.npmjs.com/package/@azure/functions
 [graphql]: https://www.npmjs.com/package/graphql
-[svelte]: https://svelte.dev
 [nuxt]: https://nuxtjs.org
 [opentelemetry]: https://opentelemetry.io
 [zod]: https://github.com/colinhacks/zod
 [js-joda]: https://js-joda.github.io/js-joda
 [vscode]: https://code.visualstudio.com
-[cucumber]: https://cucumber.io/docs
 [vitest]: https://github.com/vitest-dev/vitest
-[mocha]: https://mochajs.org
-[chai]: https://www.chaijs.com
 [tsx]: https://github.com/privatenumber/tsx
 [winston]: https://github.com/winstonjs/winston
 [esbuild]: https://esbuild.github.io

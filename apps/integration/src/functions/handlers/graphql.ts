@@ -1,7 +1,7 @@
-import { type HttpHandler, app } from '@azure/functions';
+import type { HttpHandler } from '@azure/functions';
 import { logger } from '@shellicar-reference-enterprise/server-common/core/logging/logger';
 
-const handler: HttpHandler = () => {
+export const handler: HttpHandler = () => {
   logger.info('Not implemented yet');
   return {
     status: 501,
@@ -11,9 +11,3 @@ const handler: HttpHandler = () => {
     },
   };
 };
-
-app.http('GraphQL', {
-  handler,
-  methods: ['POST', 'GET'],
-  authLevel: 'anonymous',
-});

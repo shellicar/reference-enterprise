@@ -1,0 +1,31 @@
+type Query
+type Mutation
+
+scalar Cursor
+scalar UUID
+scalar Instant
+
+interface MutationProblemDetails {
+  key: String!
+  value: String!
+}
+
+interface MutationProblem {
+  message: String!
+  details: [MutationProblemDetails!]!
+}
+
+type PageInfo {
+  total: Int!
+  count: Int!
+  hasNextPage: Boolean!
+  endCursor: Cursor
+}
+
+input StringFilter {
+  eq: String
+  ne: String
+  contains: String
+  startsWith: String
+  endsWith: String
+}

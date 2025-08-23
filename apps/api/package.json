@@ -2,31 +2,41 @@
   "name": "@shellicar-reference-enterprise/api",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/function-*.js",
+  "main": "dist/functions/*.js",
   "type": "module",
   "scripts": {
-    "build": "tsx build.mts",
-    "watch": "tsx build.mts --watch",
+    "build": "tsx build.ts",
+    "watch": "tsx build.ts --watch",
     "dev": "run-p watch start",
     "start": "func start --port 7071 --language-worker -- \"--inspect --inspect-port 9071\""
   },
   "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "@as-integrations/azure-functions": "^0.2.2",
     "@azure/functions": "^4.7.3",
+    "@graphql-tools/schema": "^10.0.25",
+    "@graphql-tools/utils": "^10.9.1",
     "@shellicar-reference-enterprise/server-common": "workspace:^",
-    "@shellicar/core-config": "^1.0.1",
-    "@shellicar/core-di": "^2.4.0"
+    "@shellicar/core-config": "^2.0.0",
+    "@shellicar/core-di": "^3.0.0",
+    "graphql": "^16.11.0",
+    "graphql-constraint-directive": "^6.0.0",
+    "graphql-middleware": "^6.1.35",
+    "graphql-shield": "^7.6.5"
   },
   "devDependencies": {
+    "@apollo/utils.keyvaluecache": "^4.0.0",
+    "@apollo/utils.logger": "^3.0.0",
     "@shellicar-reference-enterprise/typescript-config": "workspace:^",
-    "@shellicar/build-graphql": "^1.0.1",
-    "@shellicar/build-version": "^1.1.0",
-    "@types/node": "^20.19.1",
-    "esbuild": "^0.25.5",
-    "esbuild-clean-plugin": "^2.0.0",
+    "@shellicar/build-clean": "1.0.0-preview.5",
+    "@shellicar/build-graphql": "^1.1.0",
+    "@shellicar/build-version": "^1.2.0",
+    "@types/node": "^24.3.0",
+    "esbuild": "^0.25.9",
     "glob": "^11.0.3",
     "npm-run-all2": "^8.0.4",
-    "rimraf": "^5.0.0",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "rimraf": "^6.0.1",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
   }
 }
