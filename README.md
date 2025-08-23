@@ -1,6 +1,6 @@
 # @shellicar/reference-enterprise
 
-[![Node.js](https://img.shields.io/badge/Node.js-20-5FA04E?logo=nodedotjs)][node]
+[![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?logo=nodedotjs)][node]
 [![npm](https://img.shields.io/badge/npm-10-CB3837?logo=npm)][npm]
 [![pnpm](https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm)][pnpm]
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)][typescript]
