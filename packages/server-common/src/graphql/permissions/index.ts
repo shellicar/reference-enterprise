@@ -3,7 +3,6 @@ import type { IMiddlewareGenerator } from 'graphql-middleware';
 import type { IRule, IRules } from 'graphql-shield';
 import { shield } from 'graphql-shield';
 import { isDevelopment } from '../isDevelopment';
-import { CoreRules } from './DefaultRules';
 
 const mergePermissions = (arr: IRules[]): IRules => {
   const merged: IRules = {};
@@ -26,7 +25,7 @@ const mergePermissions = (arr: IRules[]): IRules => {
   return merged;
 };
 
-const mergedPermissions = mergePermissions([DefaultRules, ...rules]);
+const mergedPermissions = mergePermissions(rules);
 
 export const permissions: IMiddlewareGenerator<any, any, any> = shield(mergedPermissions, {
   allowExternalErrors: isDevelopment,

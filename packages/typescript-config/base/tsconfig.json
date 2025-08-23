@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "strict": false,
+    "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-    "types": ["node"],
+    "noUncheckedSideEffectImports": true,
+    "noFallthroughCasesInSwitch": true,
     "target": "es2024",
     "moduleResolution": "bundler",
     "module": "es2022",

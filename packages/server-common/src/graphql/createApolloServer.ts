@@ -5,18 +5,16 @@
  */
 import { env } from 'node:process';
 import { ApolloServer } from '@apollo/server';
-import { resolvers, typeDefs } from '@graphql/generated';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import type { IServiceProvider } from '@shellicar/core-di';
-import { constraintDirectiveTypeDefs } from 'graphql-constraint-directive/apollo4';
 import { formatError } from './formatError';
+import { isDevelopment } from './isDevelopment';
 import { logger } from './logger';
 import { persistedQueries } from './persistedQueries';
 import { plugins } from './plugins';
 import { schema } from './schema';
+import type { CreateApolloServerOptions } from './types';
 
-export function createApolloServer(serviceProvider: IServiceProvider) {
-  const isDevelopment = env.NODE_ENV === 'development';
+export function createApolloServer(options: CreateApolloServerOptions) {
+  const { serviceProvider } = options;
 
   return new ApolloServer({
     csrfPrevention: true,

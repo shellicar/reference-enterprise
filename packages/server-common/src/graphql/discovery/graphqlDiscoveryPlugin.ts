@@ -11,7 +11,7 @@ import { glob } from 'glob';
 
 export interface GraphQLDiscoveryOptions {
   baseDir?: string;
-  apiType: 'Api' | 'Integration' | 'Dashboard' | 'Admin';
+  apiType: 'Api' | 'Int' | 'Dash' | 'Admin';
 }
 
 export function graphqlDiscoveryPlugin(options: GraphQLDiscoveryOptions): Plugin {

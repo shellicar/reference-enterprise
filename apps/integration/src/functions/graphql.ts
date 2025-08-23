@@ -5,7 +5,7 @@
  * @author Stephen Hellicar
  */
 import { app } from '@azure/functions';
-import { createAsyncHandler } from '@shellicar-reference-enterprise/server-common/core/handlers/loader';
+import { createAsyncHandler } from '@shellicar-reference-enterprise/server-common/core/createAsyncHandler';
 
 const handler = createAsyncHandler('GraphQL', () => import('./handlers/graphql'));
 

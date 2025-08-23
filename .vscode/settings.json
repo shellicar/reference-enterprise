@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["codegen"]
+  "cSpell.words": ["codegen"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
