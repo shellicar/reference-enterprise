@@ -7,7 +7,7 @@
 [![nvm](https://img.shields.io/badge/nvm-0.40-F4DD4B?logo=nvm)][nvm]
 [![Docker](https://img.shields.io/badge/Docker-dev-2496ED?logo=docker)][docker]
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60A5FA?style=flat&logo=biome)][biome]
-[![AI Assisted](https://img.shields.io/badge/AI--Assisted-ChatGPT-412991?logo=openai)][chatgpt]
+[![AI Assisted](https://img.shields.io/badge/AI--Assisted-Copilot-501DAF?logo=github)][copilot]
 [![VS Code](https://img.shields.io/badge/VS%20Code-IDE-007ACC?logo=visualstudiocode&logoColor=white)][vscode]
 
 ## Built Using
@@ -304,12 +304,12 @@ This architecture works best with teams that:
 
 This enterprise reference provides a solid foundation for Azure application workloads with clear architectural boundaries and room for growth as applications mature.
 
-*This README was created with the assistance of [ChatGPT][chatgpt] by OpenAI.*
+*This README was created with the assistance of [GitHub Copilot][copilot].*
 
 [nvm]: https://github.com/nvm-sh/nvm
 [pnpm]: https://pnpm.io
 [docker]: https://www.docker.com
-[chatgpt]: https://openai.com/chatgpt
+[copilot]: https://github.com/features/copilot
 [biome]: https://biomejs.dev
 [typescript]: https://www.typescriptlang.org
 [node]: https://nodejs.org/en
