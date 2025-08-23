@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@azure/functions": "^4.7.3",
+    "@shellicar-reference-enterprise/server-common": "workspace:^",
     "@shellicar/core-config": "^2.0.0",
     "@shellicar/core-di": "^3.0.0"
   },

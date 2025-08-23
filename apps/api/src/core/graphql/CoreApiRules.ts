@@ -1,8 +1,7 @@
+import { rules } from '@shellicar-reference-enterprise/server-common/graphql/permissions/rules';
 import type { IRules } from 'graphql-shield';
-import { rules } from './permissions/rules';
 
 export const DefaultRules = {
-  '*': rules.notAllowed,
   Query: {
     '*': rules.notAllowed,
   },

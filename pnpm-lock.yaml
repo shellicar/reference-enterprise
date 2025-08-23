@@ -161,6 +161,9 @@ importers:
       '@azure/functions':
         specifier: ^4.7.3
         version: 4.7.3
+      '@shellicar-reference-enterprise/server-common':
+        specifier: workspace:^
+        version: link:../../packages/server-common
       '@shellicar/core-config':
         specifier: ^2.0.0
         version: 2.0.0

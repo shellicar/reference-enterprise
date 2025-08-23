@@ -4,8 +4,9 @@
  * @author Stephen Hellicar
  */
 import { app } from '@azure/functions';
+import { createAsyncHandler } from '@shellicar-reference-enterprise/server-common/core/handlers/loader';
 
-const { handler } = await import('./handlers/health');
+const handler = createAsyncHandler('Health', () => import('./handlers/health'));
 
 app.http('Health', {
   handler,

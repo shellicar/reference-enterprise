@@ -1,5 +1,5 @@
+import { rules } from '@shellicar-reference-enterprise/server-common/graphql/permissions/rules';
 import type { IRules } from 'graphql-shield';
-import { rules } from '../../core/graphql/permissions/rules';
 
 export const WidgetRules = {
   Query: {

@@ -3,9 +3,10 @@
  * @description Returns current configuration values for debugging and verification
  * @author Stephen Hellicar
  */
-import { app, type HttpHandler } from '@azure/functions';
+import { app } from '@azure/functions';
+import { createAsyncHandler } from '@shellicar-reference-enterprise/server-common/core/handlers/loader';
 
-const { handler } = await import('./handlers/config');
+const handler = await createAsyncHandler('Config', () => import('./handlers/config'));
 
 app.http('Config', {
   handler,
