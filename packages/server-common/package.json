@@ -4,7 +4,6 @@
   "description": "",
   "type": "module",
   "main": "dist/index.js",
-  "types": "",
   "scripts": {
     "build": "tsup-node",
     "dev": "tsup-node --watch"

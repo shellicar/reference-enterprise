@@ -24,9 +24,9 @@ These are some of the key dependencies required to run the applications:
 
 [![@azure/functions](https://img.shields.io/badge/Azure%20Functions-4-0082FC?logo=github)][azure-functions]
 [![GraphQL](https://img.shields.io/badge/GraphQL-16-E10098?logo=graphql)][graphql]
-[![Nuxt.js](https://img.shields.io/badge/Nuxt-3-00DC82?logo=nuxt.js)][nuxt]
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3-06B6D4?logo=tailwindcss)][tailwind]
-[![Zod](https://img.shields.io/badge/Zod-3-3E67B1?logo=zod&logoColor=3E67B1)][zod]
+[![Nuxt.js](https://img.shields.io/badge/Nuxt-4-00DC82?logo=nuxt.js)][nuxt]
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss)][tailwind]
+[![Zod](https://img.shields.io/badge/Zod-4-3E67B1?logo=zod&logoColor=3E67B1)][zod]
 [![js-joda](https://img.shields.io/badge/js--joda/core-5-2C3E50?logo=github)][js-joda]
 [![Winston](https://img.shields.io/badge/Winston-3-5B8C5B?logo=github)][winston]
 [![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-1-000000?logo=opentelemetry&logoColor=white)][opentelemetry]
