@@ -10,7 +10,7 @@ import { inspect } from 'node:util';
 import { findGraphQLFiles } from '@shellicar/build-graphql/core/graphql';
 import type { Plugin } from 'esbuild';
 import { glob } from 'glob';
-import { createLogger, type ILogger, type LoggerOptions } from './logger';
+import { createLogger, type ILogger, type LoggerOptions } from './createLogger';
 
 export interface GraphQLDiscoveryOptions {
   prefix: string;
