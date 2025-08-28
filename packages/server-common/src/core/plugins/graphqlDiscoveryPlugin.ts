@@ -6,48 +6,162 @@
 
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { inspect } from 'node:util';
+import { findGraphQLFiles } from '@shellicar/build-graphql/core/graphql';
 import type { Plugin } from 'esbuild';
 import { glob } from 'glob';
+import { createLogger, type ILogger, type LoggerOptions } from './logger';
 
 export interface GraphQLDiscoveryOptions {
-  baseDir?: string;
-  apiType: 'Api' | 'Int' | 'Dash' | 'Admin';
+  prefix: string;
+  separator: string;
+  suffixes: {
+    schema: string;
+    resolvers: string;
+    rules: string;
+  };
+  logger?: LoggerOptions;
 }
 
-export function graphqlDiscoveryPlugin(options: GraphQLDiscoveryOptions): Plugin {
-  const { baseDir = 'src', apiType } = options;
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
 
-  // Generate patterns based on API type
-  const schemaPattern = `**/*${apiType}.graphql`;
-  const resolverPattern = `**/*${apiType}Resolvers.ts`;
-  const rulesPattern = `**/*${apiType}Rules.ts`;
+const defaultOptions: GraphQLDiscoveryOptions = {
+  prefix: 'src/**',
+  separator: '',
+  suffixes: {
+    schema: '',
+    resolvers: 'Resolvers',
+    rules: 'Rules',
+  },
+  logger: {
+    debug: true,
+    verbose: false,
+  },
+};
+
+function buildGlobPattern(prefix: string, separator: string, suffix: string, extension: string): string {
+  let glob = prefix;
+  if (separator) {
+    glob += `/${separator}`;
+  }
+  glob += `/*${suffix}.${extension}`;
+  return glob;
+}
+
+function buildRegexPattern(separator: string, suffix: string, extension: string): RegExp {
+  let regexPattern = '/([^/]+)';
+  if (separator) {
+    regexPattern += `/${separator}`;
+  }
+  regexPattern += `/[^/]*${suffix}\\.${extension}$`;
+  return new RegExp(regexPattern);
+}
+
+function generatePatterns(prefix: string, separator: string, suffix: string, extension: string) {
+  // Validate format
+  if (prefix.endsWith('/')) {
+    throw new Error('prefix should not end with a slash');
+  }
+  if (separator && (separator.startsWith('/') || separator.endsWith('/'))) {
+    throw new Error('separator should not start or end with a slash');
+  }
+
+  const glob = buildGlobPattern(prefix, separator, suffix, extension);
+  const regex = buildRegexPattern(separator, suffix, extension);
+
+  return { glob, regex };
+}
+
+export function graphqlDiscoveryPlugin(initialOptions?: DeepPartial<GraphQLDiscoveryOptions>): Plugin {
+  const options: GraphQLDiscoveryOptions = {
+    ...defaultOptions,
+    ...initialOptions,
+    suffixes: {
+      ...defaultOptions.suffixes,
+      ...initialOptions?.suffixes,
+    },
+    logger: {
+      ...defaultOptions.logger,
+      ...initialOptions?.logger,
+    },
+  };
+
+  const logger = createLogger('graphql-discovery', options.logger);
+
+  logger.debug('Plugin loaded with options:', inspect(options, { colors: true, compact: true, breakLength: Infinity }));
+
+  const { prefix, separator, suffixes } = options;
+
+  // Generate patterns and regex for each file type
+  const schema = generatePatterns(prefix, separator, suffixes.schema, 'graphql');
+  const resolvers = generatePatterns(prefix, separator, suffixes.resolvers, 'ts');
+  const rules = generatePatterns(prefix, separator, suffixes.rules, 'ts');
+
+  const schemaPattern = schema.glob;
+  const resolverPattern = resolvers.glob;
+  const rulesPattern = rules.glob;
+
+  const moduleRegex = {
+    schema: schema.regex,
+    resolvers: resolvers.regex,
+    rules: rules.regex,
+  };
 
   return {
     name: 'graphql-discovery',
     setup(build) {
       // Handle the virtual module import
-      build.onResolve({ filter: /^@graphql\/generated$/ }, (args) => ({
-        path: args.path,
-        namespace: 'graphql-generated',
-      }));
+      build.onResolve({ filter: /^@graphql\/generated$/ }, (args) => {
+        return {
+          path: args.path,
+          namespace: 'graphql-generated',
+        };
+      });
 
       build.onLoad({ filter: /.*/, namespace: 'graphql-generated' }, async () => {
         try {
-          // Discover all GraphQL files
-          const schemaFiles = await glob(path.join(baseDir, schemaPattern));
-          const resolverFiles = await glob(path.join(baseDir, resolverPattern));
-          const rulesFiles = await glob(path.join(baseDir, rulesPattern));
+          logger.debug('Looking for schema files with pattern:', schemaPattern);
+          const graphqlFiles = await findGraphQLFiles({
+            globPattern: schemaPattern,
+            globIgnore: '',
+          });
+          logger.debug(`Found ${graphqlFiles.length} schema files`);
+          graphqlFiles.forEach((file) => {
+            logger.verbose(`Found schema: ${file.path}`);
+          });
 
-          // Detect modules and check completeness
-          const detectedModules = detectModules(schemaFiles, resolverFiles, rulesFiles, apiType);
+          // Convert absolute paths to relative paths for consistency
+          const schemaFiles = graphqlFiles.map((f) => {
+            const absolutePath = f.path;
+            // Convert absolute path to relative by removing everything up to and including '/src/'
+            const srcIndex = absolutePath.indexOf('/src/');
+            return srcIndex !== -1 ? absolutePath.substring(srcIndex + 1) : absolutePath;
+          });
 
-          console.log('=== GRAPHQL DISCOVERY PLUGIN ===');
-          console.log('Schema files found:', schemaFiles);
-          console.log('Resolver files found:', resolverFiles);
-          console.log('Rules files found:', rulesFiles);
-          console.log('Detected modules:', detectedModules);
+          logger.debug('Looking for resolver files with pattern:', resolverPattern);
+          const resolverFiles = await glob(resolverPattern);
+          logger.debug(`Found ${resolverFiles.length} resolver files`);
+          resolverFiles.forEach((file) => {
+            logger.verbose(`Found resolver: ${file}`);
+          });
 
-          // Check for issues
+          logger.debug('Looking for rules files with pattern:', rulesPattern);
+          const rulesFiles = await glob(rulesPattern);
+          logger.debug(`Found ${rulesFiles.length} rules files`);
+          rulesFiles.forEach((file) => {
+            logger.verbose(`Found rules: ${file}`);
+          });
+
+          const detectedModules = detectModules(schemaFiles, resolverFiles, rulesFiles, moduleRegex, logger);
+
+          logger.info(`Found ${schemaFiles.length} schema files, ${resolverFiles.length} resolver files, ${rulesFiles.length} rules files`);
+
+          // Check for issues and separate complete vs incomplete modules
+          const completeModules: string[] = [];
+          const incompleteModules: string[] = [];
+
           for (const [moduleName, module] of Object.entries(detectedModules)) {
             const missing: string[] = [];
             if (!module.schema) {
@@ -61,13 +175,23 @@ export function graphqlDiscoveryPlugin(options: GraphQLDiscoveryOptions): Plugin
             }
 
             if (missing.length > 0) {
-              console.log(`Module ${moduleName} is missing: ${missing.join(', ')}`);
+              logger.warn(`Module ${moduleName} is missing: ${missing.join(', ')}`);
+              incompleteModules.push(moduleName);
             } else {
-              console.log(`Module ${moduleName} is complete`);
+              completeModules.push(moduleName);
             }
           }
 
-          console.log('=== END GRAPHQL DISCOVERY ===');
+          if (completeModules.length > 0) {
+            logger.info(`Complete modules: ${completeModules.join(', ')}`);
+          } else {
+            logger.error('No complete modules found');
+          }
+
+          // Check if no modules found
+          if (Object.keys(detectedModules).length === 0) {
+            logger.error('No modules found! Check your file naming patterns.');
+          }
 
           const schemas = await Promise.all(
             schemaFiles.map(async (file) => {
@@ -76,23 +200,18 @@ export function graphqlDiscoveryPlugin(options: GraphQLDiscoveryOptions): Plugin
             }),
           );
 
-          // Check if no modules found
-          if (Object.keys(detectedModules).length === 0) {
-            console.error('❌ NO MODULES FOUND! Check your file naming patterns.');
-          }
-
           // Generate the virtual module content
           const code = generateVirtualModule({
             schemas,
             resolverFiles,
             rulesFiles,
-            baseDir,
+            baseDir: process.cwd(),
           });
 
           return {
             contents: code,
             loader: 'ts',
-            resolveDir: baseDir,
+            resolveDir: process.cwd(),
             watchFiles: [...schemaFiles, ...resolverFiles, ...rulesFiles],
           };
         } catch (error) {
@@ -110,35 +229,45 @@ export function graphqlDiscoveryPlugin(options: GraphQLDiscoveryOptions): Plugin
   };
 }
 
-function detectModules(schemaFiles: string[], resolverFiles: string[], rulesFiles: string[], apiType: string) {
+function detectModules(
+  schemaFiles: string[],
+  resolverFiles: string[],
+  rulesFiles: string[],
+  moduleRegex: {
+    schema: RegExp;
+    resolvers: RegExp;
+    rules: RegExp;
+  },
+  logger: ILogger,
+) {
   const modules: Record<string, { schema: boolean; resolvers: boolean; rules: boolean }> = {};
 
   const operations = [
     {
       files: schemaFiles,
       type: 'schema' as const,
-      pattern: new RegExp(`(.+)${apiType}\\.graphql$`),
+      pattern: moduleRegex.schema,
     },
     {
       files: resolverFiles,
       type: 'resolvers' as const,
-      pattern: new RegExp(`(.+)${apiType}Resolvers\\.ts$`),
+      pattern: moduleRegex.resolvers,
     },
     {
       files: rulesFiles,
       type: 'rules' as const,
-      pattern: new RegExp(`(.+)${apiType}Rules\\.ts$`),
+      pattern: moduleRegex.rules,
     },
   ];
 
   for (const operation of operations) {
     for (const file of operation.files) {
-      const basename = path.basename(file);
-      const match = basename.match(operation.pattern);
-      if (match) {
-        const moduleName = match[1]!;
+      const match = file.match(operation.pattern);
+      if (match?.[1]) {
+        const moduleName = match[1];
         modules[moduleName] ??= { schema: false, resolvers: false, rules: false };
         modules[moduleName][operation.type] = true;
+        logger.verbose(`Detected ${operation.type} for module: ${moduleName}`);
       }
     }
   }

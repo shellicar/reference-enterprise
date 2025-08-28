@@ -1,13 +1,13 @@
 import cleanPlugin from '@shellicar/build-clean/esbuild';
 import { defineConfig } from 'tsup';
 
-export default defineConfig(({ watch }) => ({
+export default defineConfig({
   bundle: true,
   dts: false,
-  entry: ['src/**/*.ts'],
+  entry: ['src/**/*.ts', '!src/**/*.d.ts'],
   format: ['esm'],
   keepNames: true,
-  minify: !watch,
+  minify: false,
   clean: false,
   outDir: 'dist',
   platform: 'node',
@@ -17,10 +17,7 @@ export default defineConfig(({ watch }) => ({
   treeshake: true,
   tsconfig: './tsconfig.json',
   esbuildOptions: (options) => {
-    if (!watch) {
-      options.drop = ['console', 'debugger'];
-    }
     options.chunkNames = 'chunks/[name]-[hash]';
   },
   esbuildPlugins: [cleanPlugin({ destructive: true })],
-}));
+});

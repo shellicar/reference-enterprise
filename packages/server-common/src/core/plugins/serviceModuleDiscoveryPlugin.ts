@@ -20,7 +20,7 @@ export function serviceModuleDiscoveryPlugin(options: ServiceModuleDiscoveryOpti
     name: 'service-module-discovery',
     setup(build) {
       // Handle the virtual module import
-      build.onResolve({ filter: /^@modules\/generated$/ }, (args) => ({
+      build.onResolve({ filter: /^@shellicar-reference-enterprise\/server-common\/generated$/ }, (args) => ({
         path: args.path,
         namespace: 'modules-generated',
       }));
@@ -43,9 +43,10 @@ export function serviceModuleDiscoveryPlugin(options: ServiceModuleDiscoveryOpti
             const sourceFile = ts.createSourceFile(filePath, content, ts.ScriptTarget.Latest, true);
 
             // Check if file has exports extending IServiceModule
-            if (hasServiceModuleExport(sourceFile)) {
+            const serviceModuleClasses = findServiceModuleExports(sourceFile);
+            if (serviceModuleClasses.length > 0) {
               moduleFiles.push(filePath);
-              console.log('Found service module:', filePath);
+              console.log(`Found service modules in ${filePath}:`, serviceModuleClasses);
             }
           }
 
@@ -58,6 +59,7 @@ export function serviceModuleDiscoveryPlugin(options: ServiceModuleDiscoveryOpti
           return {
             contents: code,
             loader: 'ts',
+            resolveDir: process.cwd(), // Set resolve directory for imports
             watchFiles: tsFiles,
           };
         } catch (error) {
@@ -75,44 +77,63 @@ export function serviceModuleDiscoveryPlugin(options: ServiceModuleDiscoveryOpti
   };
 }
 
-function hasServiceModuleExport(sourceFile: ts.SourceFile): boolean {
-  let hasModule = false;
+function findServiceModuleExports(sourceFile: ts.SourceFile): string[] {
+  const serviceModules: string[] = [];
 
-  function visit(node: ts.Node) {
-    // Check for export declarations
-    if (ts.isExportDeclaration(node) || ts.isVariableStatement(node)) {
-      // Look for IServiceModule references in the text
-      const nodeText = node.getFullText();
-      if (nodeText.includes('IServiceModule') || nodeText.includes('ServiceModule')) {
-        hasModule = true;
+  // First, check if IServiceModule is imported from @shellicar/core-di
+  let hasValidImport = false;
+  sourceFile.statements.forEach((statement) => {
+    if (ts.isImportDeclaration(statement) && statement.moduleSpecifier) {
+      const moduleSpecifier = statement.moduleSpecifier.getText().replace(/['"]/g, '');
+      if (moduleSpecifier === '@shellicar/core-di' && statement.importClause?.namedBindings) {
+        if (ts.isNamedImports(statement.importClause.namedBindings)) {
+          const hasIServiceModule = statement.importClause.namedBindings.elements.some((element) => element.name.getText() === 'IServiceModule');
+          if (hasIServiceModule) {
+            hasValidImport = true;
+            console.log('✅ Found valid IServiceModule import from @shellicar/core-di');
+          }
+        }
       }
     }
+  });
 
+  if (!hasValidImport) {
+    console.log('❌ No valid IServiceModule import found');
+    return serviceModules;
+  }
+
+  // Find classes that extend IServiceModule
+  function visit(node: ts.Node) {
+    if (ts.isClassDeclaration(node) && node.name && node.heritageClauses) {
+      for (const heritageClause of node.heritageClauses) {
+        if (heritageClause.token === ts.SyntaxKind.ExtendsKeyword) {
+          for (const type of heritageClause.types) {
+            const typeName = type.expression.getText();
+            if (typeName === 'IServiceModule') {
+              const className = node.name.getText();
+              console.log(`✅ Found service module class: ${className}`);
+              serviceModules.push(className);
+            }
+          }
+        }
+      }
+    }
     ts.forEachChild(node, visit);
   }
 
   visit(sourceFile);
-  return hasModule;
+  return serviceModules;
 }
 
 function generateModulesFile(moduleFiles: string[]): string {
   if (moduleFiles.length === 0) {
-    return `
-// Auto-generated modules file - DO NOT EDIT
-// No service modules found
-
-export const modules = [];
-
-export default {
-  modules,
-};
-    `.trim();
+    throw new Error('No service modules found! Check that you have classes extending IServiceModule from @shellicar/core-di');
   }
 
-  // Generate imports using relative paths
+  // Generate imports using relative paths from current working directory
   const imports = moduleFiles
     .map((file, index) => {
-      // Remove .ts extension and make relative import
+      // Remove .ts extension - keep the full path as-is since resolveDir is set to process.cwd()
       const importPath = file.replace(/\.ts$/, '');
       return `import * as module${index} from './${importPath}';`;
     })

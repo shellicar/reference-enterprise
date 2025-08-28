@@ -11,7 +11,8 @@ type ImportHandler = () => Promise<{ handler: HttpHandler }>;
 
 const createLogger = async (): Promise<Logger> => {
   try {
-    const { logger } = await import('@shellicar-reference-enterprise/server-common/core/logging/logger');
+    // @ts-expect-error
+    const { logger }: { logger: Logger } = await import('../logging/logger');
     return logger;
   } catch {
     return {

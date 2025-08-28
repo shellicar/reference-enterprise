@@ -1,5 +1,5 @@
-import { logger } from '@shellicar-reference-enterprise/server-common/core/logging/logger';
 import type { GraphQLResolveInfo } from 'graphql';
+import { logger } from '../../core/logging/logger';
 
 export const log = (name: string, ctx: any, info: GraphQLResolveInfo, result: true | Error) => {
   const operationName = info.operation.name?.value;

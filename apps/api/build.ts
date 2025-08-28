@@ -4,7 +4,7 @@
  * @author Stephen Hellicar
  */
 
-import { argv } from 'node:process';
+import { argv, env } from 'node:process';
 import cleanPlugin from '@shellicar/build-clean/esbuild';
 import versionPlugin from '@shellicar/build-version/esbuild';
 import { graphqlDiscoveryPlugin } from '@shellicar-reference-enterprise/server-common/core/plugins/graphqlDiscoveryPlugin';
@@ -16,14 +16,14 @@ const entryPoints = await glob('./src/functions/*.ts');
 const inject = await glob('./inject/*.ts');
 const watch = argv.includes('--watch');
 const external = ['@azure/functions'];
-const plugins = [cleanPlugin({ destructive: true }), graphqlDiscoveryPlugin({ apiType: 'Api' }), serviceModuleDiscoveryPlugin({ pattern: 'src/**/*Module.ts' }), versionPlugin({})];
+const plugins = [cleanPlugin({ destructive: true }), graphqlDiscoveryPlugin({ separator: 'api', logger: { debug: true, verbose: true } }), serviceModuleDiscoveryPlugin({ pattern: 'src/**/*Module.ts' }), versionPlugin({})];
 
 const ctx = await context({
   bundle: true,
   entryPoints,
   entryNames: 'functions/[name]',
   chunkNames: 'chunks/[name]-[hash]',
-  drop: watch ? [] : ['console', 'debugger'],
+  drop: env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
   outdir: './dist',
   format: 'esm',
   external,
@@ -43,6 +43,7 @@ if (watch) {
   await ctx.watch();
   console.log('watching...');
 } else {
+  console.log('building...');
   await ctx.rebuild();
   ctx.dispose();
 }

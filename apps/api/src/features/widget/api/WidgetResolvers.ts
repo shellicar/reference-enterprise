@@ -1,5 +1,5 @@
 import type { IResolvers } from '@graphql-tools/utils';
-import { IWidgetCreateResolver, IWidgetGetResolver, IWidgetSearchResolver, IWidgetStartResolver } from './interfaces';
+import { IWidgetCreateResolver, IWidgetGetResolver, IWidgetSearchResolver, IWidgetStartResolver } from '../interfaces';
 
 export const WidgetResolver = {
   Query: {

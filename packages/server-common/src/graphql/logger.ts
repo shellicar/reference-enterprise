@@ -1,5 +1,5 @@
 import type { Logger } from '@apollo/utils.logger';
-import { logger } from '@shellicar-reference-enterprise/server-common/core/logging/logger';
+import { logger } from '../core/logging/logger';
 
 export const apolloLogger = {
   debug(message) {

@@ -8,10 +8,14 @@
     "build": "tsup-node",
     "dev": "tsup-node --watch"
   },
+  "types": "./src/index.d.ts",
   "exports": {
     "./*": {
       "types": "./src/*.ts",
       "import": "./dist/*.js"
+    },
+    "./generated": {
+      "types": "./src/generated.d.ts"
     }
   },
   "keywords": [],
@@ -30,6 +34,7 @@
     "@apollo/utils.logger": "^3.0.0",
     "@azure/functions": "^4.7.3",
     "@shellicar/build-clean": "1.0.0-preview.5",
+    "@shellicar/build-graphql": "^1.1.0",
     "esbuild": "^0.25.9",
     "graphql-middleware": "^6.1.35",
     "graphql-shield": "^7.6.5",
