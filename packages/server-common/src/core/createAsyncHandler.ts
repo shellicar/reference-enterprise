@@ -11,8 +11,7 @@ type ImportHandler = () => Promise<{ handler: HttpHandler }>;
 
 const createLogger = async (): Promise<Logger> => {
   try {
-    // @ts-expect-error
-    const { logger }: { logger: Logger } = await import('../logging/logger');
+    const { logger } = await import('./logging/logger');
     return logger;
   } catch {
     return {
