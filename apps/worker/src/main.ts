@@ -1,6 +1,4 @@
 import { serviceProvider } from './core/di/serviceProvider';
-import { HonoServer } from './core/http/HonoServer';
-import { TemporalWorker } from './core/temporal-worker/TemporalWorker';
 import { IWorkerModule } from './interfaces';
 
 const main = async () => {

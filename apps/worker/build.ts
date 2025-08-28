@@ -14,7 +14,7 @@ const ctx = await context({
   bundle: true,
   chunkNames: 'chunks/[name]-[hash]',
   drop: env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
-  entryNames: 'functions/[name]',
+  entryNames: 'entry/[name]',
   entryPoints,
   external,
   format: 'esm',

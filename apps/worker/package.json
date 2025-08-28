@@ -2,14 +2,15 @@
   "name": "@shellicar-reference-enterprise/worker",
   "version": "1.0.0",
   "description": "Worker service for background processing and long-running tasks",
-  "main": "dist/main.js",
+  "main": "dist/entry/main.js",
   "type": "module",
   "scripts": {
     "build": "tsx build.ts",
-    "dev": "tsx src/main.ts",
+    "watch": "tsx build.ts --watch",
+    "dev": "run-p watch start",
     "start": "node .",
     "test": "vitest run",
-    "type-check": "tsc --noEmit --composite false --skipLibCheck"
+    "type-check": "tsc -p tsconfig.check.json"
   },
   "keywords": [],
   "author": "",
