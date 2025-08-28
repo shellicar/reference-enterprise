@@ -1,4 +1,4 @@
-import { argv } from 'node:process';
+import { argv, env } from 'node:process';
 import cleanPlugin from '@shellicar/build-clean/esbuild';
 import versionPlugin from '@shellicar/build-version/esbuild';
 import { context } from 'esbuild';
@@ -12,22 +12,22 @@ const plugins = [cleanPlugin({ destructive: true }), versionPlugin({})];
 
 const ctx = await context({
   bundle: true,
-  entryPoints,
-  entryNames: 'functions/[name]',
   chunkNames: 'chunks/[name]-[hash]',
-  drop: watch ? [] : ['console', 'debugger'],
-  outdir: './dist',
-  format: 'esm',
+  drop: env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+  entryNames: 'functions/[name]',
+  entryPoints,
   external,
-  platform: 'node',
-  target: 'es2024',
-  treeShaking: true,
+  format: 'esm',
+  inject,
+  keepNames: true,
   minify: !watch,
+  outdir: './dist',
+  platform: 'node',
+  plugins,
   sourcemap: true,
   splitting: true,
-  keepNames: true,
-  inject,
-  plugins,
+  target: 'es2024',
+  treeShaking: true,
   tsconfig: './tsconfig.json',
 });
 

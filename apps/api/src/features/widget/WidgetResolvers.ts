@@ -1,12 +1,12 @@
-import type { IResolvers } from '@graphql-tools/utils';
-import { IWidgetCreateResolver, IWidgetGetResolver, IWidgetSearchResolver, IWidgetStartResolver } from '../interfaces';
+import type { Resolvers, WidgetMutations, WidgetQueries } from '../../generated/server';
+import { IWidgetCreateResolver, IWidgetGetResolver, IWidgetSearchResolver, IWidgetStartResolver } from './interfaces';
 
 export const WidgetResolver = {
   Query: {
-    widget: () => ({}),
+    widget: () => ({}) as WidgetQueries,
   },
   Mutation: {
-    widget: () => ({}),
+    widget: () => ({}) as WidgetMutations,
   },
   WidgetQueries: {
     search: (_, { input }, { scope }) => scope.resolve(IWidgetSearchResolver).query(input),
@@ -16,4 +16,4 @@ export const WidgetResolver = {
     create: (_, { input }, { scope }) => scope.resolve(IWidgetCreateResolver).mutate(input),
     start: (_, { input }, { scope }) => scope.resolve(IWidgetStartResolver).mutate(input),
   },
-} satisfies IResolvers;
+} satisfies Resolvers;

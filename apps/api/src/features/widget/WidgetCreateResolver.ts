@@ -1,3 +1,4 @@
+import type { WidgetCreateInput, WidgetCreatePayload } from '../../generated/server';
 import type { IWidgetCreateResolver } from './interfaces';
 
 export class WidgetCreateResolver implements IWidgetCreateResolver {

@@ -4,4 +4,7 @@ export default defineNuxtConfig({
     autoImport: false,
   },
   devtools: { enabled: true },
+  devServer: {
+    port: 3005,
+  },
 });

@@ -7,16 +7,24 @@
   "scripts": {
     "build": "tsx build.ts",
     "watch": "tsx build.ts --watch",
+    "codegen": "graphql-codegen",
+    "type-check": "tsc -p tsconfig.check.json",
     "dev": "run-p watch start",
     "start": "func start --port 7072 --language-worker -- \"--inspect --inspect-port 9072\""
   },
   "dependencies": {
+    "@as-integrations/azure-functions": "^0.2.2",
     "@azure/functions": "^4.7.3",
+    "@js-joda/core": "^5.6.5",
     "@shellicar-reference-enterprise/server-common": "workspace:^",
     "@shellicar/core-config": "^2.0.0",
-    "@shellicar/core-di": "^3.0.0"
+    "@shellicar/core-di": "^3.0.0",
+    "graphql-shield": "^7.6.5"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@shellicar-reference-enterprise/typescript-config": "workspace:^",
     "@shellicar/build-clean": "1.0.0-preview.5",
     "@shellicar/build-graphql": "^1.1.0",

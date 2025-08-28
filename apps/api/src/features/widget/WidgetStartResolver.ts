@@ -1,3 +1,4 @@
+import type { WidgetStartInput, WidgetStartPayload } from '../../generated/server';
 import { IWidgetStartResolver } from './interfaces';
 
 export class WidgetStartResolver extends IWidgetStartResolver {

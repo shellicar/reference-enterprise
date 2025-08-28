@@ -10,11 +10,11 @@ import { glob } from 'glob';
 import * as ts from 'typescript';
 
 export interface ServiceModuleDiscoveryOptions {
-  pattern?: string;
+  patterns?: string[];
 }
 
 export function serviceModuleDiscoveryPlugin(options: ServiceModuleDiscoveryOptions = {}): Plugin {
-  const { pattern = 'src/**/*.ts' } = options;
+  const { patterns = ['src/**/*.ts'] } = options;
 
   return {
     name: 'service-module-discovery',
@@ -27,10 +27,10 @@ export function serviceModuleDiscoveryPlugin(options: ServiceModuleDiscoveryOpti
 
       build.onLoad({ filter: /.*/, namespace: 'modules-generated' }, async () => {
         try {
-          const tsFiles = await glob(pattern);
+          const tsFiles = await glob(patterns);
 
           console.log('=== SERVICE MODULE DISCOVERY PLUGIN ===');
-          console.log('Pattern:', pattern);
+          console.log('Pattern:', patterns);
           console.log('Scanning files:', tsFiles.length);
 
           const moduleFiles: string[] = [];

@@ -1,3 +1,5 @@
+import type { Widget, WidgetCreateInput, WidgetCreatePayload, WidgetFeed, WidgetGetInput, WidgetSearchInput, WidgetStartInput, WidgetStartPayload } from '../../generated/server';
+
 export abstract class IWidgetGetResolver {
   public abstract query(input: WidgetGetInput): Promise<Widget | null>;
 }

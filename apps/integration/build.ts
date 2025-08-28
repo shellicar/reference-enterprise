@@ -8,6 +8,7 @@ import { argv } from 'node:process';
 import cleanPlugin from '@shellicar/build-clean/esbuild';
 import versionPlugin from '@shellicar/build-version/esbuild';
 import { graphqlDiscoveryPlugin } from '@shellicar-reference-enterprise/server-common/core/plugins/graphqlDiscoveryPlugin';
+import { serviceModuleDiscoveryPlugin } from '@shellicar-reference-enterprise/server-common/core/plugins/serviceModuleDiscoveryPlugin';
 import { context } from 'esbuild';
 import { glob } from 'glob';
 
@@ -15,7 +16,9 @@ const entryPoints = await glob('./src/functions/*.ts');
 const inject = await glob('./inject/*.ts');
 const watch = argv.includes('--watch');
 const external = ['@azure/functions'];
-const plugins = [cleanPlugin({ destructive: true }), graphqlDiscoveryPlugin({ apiType: 'Int' }), versionPlugin({})];
+const plugins = [cleanPlugin({ destructive: true }), graphqlDiscoveryPlugin({ logger: { debug: true, verbose: true } }), serviceModuleDiscoveryPlugin({ patterns: ['src/**/*Module.ts', '../../packages/server-common/src/**/*Module.ts'] }), versionPlugin({})];
+
+console.log('Entry points:', entryPoints);
 
 const ctx = await context({
   bundle: true,
