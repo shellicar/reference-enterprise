@@ -27,6 +27,7 @@
     "@shellicar/core-di": "^3.0.0",
     "@shellicar/winston-azure-application-insights": "^5.1.0",
     "applicationinsights": "^3.9.0",
+    "graphql": "^16.11.0",
     "graphql-constraint-directive": "^6.0.0"
   },
   "devDependencies": {
@@ -36,8 +37,10 @@
     "@shellicar/build-clean": "1.0.0-preview.5",
     "@shellicar/build-graphql": "^1.1.0",
     "esbuild": "^0.25.9",
+    "glob": "^11.0.3",
     "graphql-middleware": "^6.1.35",
     "graphql-shield": "^7.6.5",
-    "tsup": "^8.5.0"
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
   }
 }
