@@ -16,7 +16,7 @@
     "@nuxt/scripts": "0.11.13",
     "@shellicar-reference-enterprise/ui": "workspace:^",
     "@unhead/vue": "^2.0.14",
-    "nuxt": "^4.0.3",
+    "nuxt": "^4.1.0",
     "vue": "^3.5.19",
     "vue-router": "^4.5.1"
   },
