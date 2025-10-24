@@ -14,7 +14,7 @@ export default defineConfig({
   target: 'es2024',
   sourcemap: true,
   splitting: true,
-  treeshake: true,
+  treeshake: false,
   tsconfig: './tsconfig.json',
   esbuildOptions: (options) => {
     options.chunkNames = 'chunks/[name]-[hash]';
