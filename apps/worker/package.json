@@ -2,33 +2,33 @@
   "name": "@shellicar-reference-enterprise/worker",
   "version": "1.0.0",
   "description": "Worker service for background processing and long-running tasks",
-  "main": "dist/main.js",
+  "main": "dist/entry/main.js",
   "type": "module",
   "scripts": {
-    "build": "tsx build.mts",
-    "dev": "tsx src/main.ts",
+    "build": "tsx build.ts",
+    "watch": "tsx build.ts --watch",
+    "dev": "run-p watch start",
     "start": "node .",
     "test": "vitest run",
-    "type-check": "tsc --noEmit --composite false --skipLibCheck"
+    "type-check": "tsc -p tsconfig.check.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.12.1",
   "devDependencies": {
     "@shellicar-reference-enterprise/typescript-config": "workspace:^",
-    "@types/node": "^20.19.1",
-    "esbuild": "^0.25.5",
-    "esbuild-clean-plugin": "^2.0.0",
+    "@shellicar/build-clean": "1.0.0-preview.5",
+    "@types/node": "^24.3.0",
+    "esbuild": "^0.25.9",
     "glob": "^11.0.3",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.4",
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@hono/node-server": "^1.14.4",
-    "@shellicar/build-version": "^1.1.0",
-    "@shellicar/core-di": "^2.4.0",
-    "@temporalio/worker": "^1.11.8",
-    "hono": "^4.8.2"
+    "@hono/node-server": "^1.19.0",
+    "@shellicar/build-version": "^1.2.0",
+    "@shellicar/core-di": "^3.0.0",
+    "@temporalio/worker": "^1.12.3",
+    "hono": "^4.9.4"
   }
 }

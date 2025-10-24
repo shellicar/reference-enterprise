@@ -1,12 +1,19 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "strictNullChecks": true,
-    "types": ["node"],
+    "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
+    "noFallthroughCasesInSwitch": true,
     "target": "es2024",
     "moduleResolution": "bundler",
-    "module": "es2022"
+    "module": "es2022",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true
   }
 }

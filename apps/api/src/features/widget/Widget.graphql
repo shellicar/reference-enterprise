@@ -1,0 +1,105 @@
+extend type Query {
+  widget: WidgetQueries!
+}
+
+extend type Mutation {
+  widget: WidgetMutations!
+}
+
+type WidgetQueries {
+  get(input: WidgetGetInput!): Widget
+  search(input: WidgetSearchInput!): WidgetFeed!
+}
+
+type WidgetMutations {
+  create(input: WidgetCreateInput!): WidgetCreatePayload!
+  start(input: WidgetStartInput!): WidgetStartPayload!
+}
+
+type Widget {
+  id: UUID!
+  name: String!
+  description: String
+  created: Instant!
+  modified: Instant!
+}
+
+input WidgetGetInput {
+  id: UUID!
+}
+
+input WidgetSearchInput {
+  name: StringFilter
+  description: StringFilter
+  limit: Int = 10 @constraint(min: 1, max: 100)
+  cursor: Cursor
+}
+
+# Create Widget
+input WidgetCreateInput {
+  name: String! @constraint(minLength: 1, maxLength: 100, pattern: "^[\\x20-\\x7E]+$")
+  description: String! @constraint(minLength: 1, maxLength: 100, pattern: "^[\\x20-\\x7E]+$")
+}
+
+union WidgetCreatePayload = WidgetCreatePayloadSuccess | WidgetCreatePayloadFailure
+
+type WidgetCreatePayloadSuccess {
+  id: UUID!
+}
+
+enum WidgetCreatePayloadFailureStatus {
+  INVALID_INPUT
+  ALREADY_EXISTS
+  INTERNAL_ERROR
+}
+
+type WidgetCreatePayloadFailure {
+  status: WidgetCreatePayloadFailureStatus!
+  errors: [WidgetCreatePayloadFailureError!]!
+}
+
+type WidgetCreatePayloadFailureErrorDetails implements MutationProblemDetails {
+  key: String!
+  value: String!
+}
+
+type WidgetCreatePayloadFailureError implements MutationProblem {
+  message: String!
+  details: [MutationProblemDetails!]!
+}
+
+# Start Widget
+input WidgetStartInput {
+  id: UUID!
+}
+
+union WidgetStartPayload = WidgetStartPayloadSuccess | WidgetStartPayloadFailure
+
+type WidgetStartPayloadSuccess {
+  id: UUID!
+}
+
+enum WidgetStartPayloadFailureStatus {
+  INVALID_STATE
+  INTERNAL_ERROR
+}
+
+type WidgetStartPayloadFailure {
+  status: WidgetStartPayloadFailureStatus!
+  errors: [WidgetStartPayloadFailureError!]!
+}
+
+type WidgetStartPayloadFailureErrorDetails implements MutationProblemDetails {
+  key: String!
+  value: String!
+}
+
+type WidgetStartPayloadFailureError implements MutationProblem {
+  message: String!
+  details: [MutationProblemDetails!]!
+}
+
+type WidgetFeed {
+  items: [Widget!]!
+  cursor: Cursor
+}

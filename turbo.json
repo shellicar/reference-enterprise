@@ -8,6 +8,7 @@
       "inputs": ["tsconfig.json", "**/*.ts"],
       "outputs": ["dist"]
     },
+    "codegen": {},
     "dev": {
       "cache": false,
       "persistent": true

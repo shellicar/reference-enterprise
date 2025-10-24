@@ -6,7 +6,7 @@ import type { IWorkerModule } from '../../interfaces';
 export class HonoServer implements IWorkerModule {
   private readonly app: Hono;
   private readonly host = 'localhost';
-  private readonly port = 3000;
+  private readonly port = 7073;
   private server: ServerType | null = null;
 
   public constructor() {
