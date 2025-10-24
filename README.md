@@ -71,6 +71,7 @@ Unlike the foundational [`@shellicar/reference-foundation`](https://github.com/s
 ### Framework Adapters
 
 - [`@shellicar/svelte-adapter-azure-functions`](https://github.com/shellicar/svelte-adapter-azure-functions) - A [SvelteKit adapter](https://kit.svelte.dev/docs/adapters) that builds your app into an Azure Function.
+- [`@shellicar/cosmos-query-builder`](https://github.com/shellicar/cosmos-query-builder) - Helper class for type safe advanced queries for Cosmos DB (Sql Core).
 
 ### Logging & Monitoring
 

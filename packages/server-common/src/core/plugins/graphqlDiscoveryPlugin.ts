@@ -7,10 +7,22 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { inspect } from 'node:util';
-import { findGraphQLFiles } from '@shellicar/build-graphql/core/graphql';
 import type { Plugin } from 'esbuild';
 import { glob } from 'glob';
 import { createLogger, type ILogger, type LoggerOptions } from './createLogger';
+
+type GraphqlFile = {
+  path: string;
+  name: string;
+};
+
+const findGraphQLFiles = async (options: { globPattern: string; globIgnore: string }): Promise<GraphqlFile[]> => {
+  const files = await glob(options.globPattern, { ignore: options.globIgnore });
+  return files.map((file, index) => ({
+    path: path.join(process.cwd(), file).replace(/\\/g, '/'),
+    name: `gql_${index}`,
+  }));
+};
 
 export interface GraphQLDiscoveryOptions {
   prefix: string;
