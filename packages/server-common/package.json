@@ -37,7 +37,7 @@
     "@shellicar/build-clean": "1.1.2",
     "@shellicar/build-graphql": "^1.2.1",
     "esbuild": "^0.25.11",
-    "glob": "^11.0.3",
+    "glob": "^11.1.0",
     "graphql-middleware": "^6.1.35",
     "graphql-shield": "^7.6.5",
     "tsup": "^8.5.0",
