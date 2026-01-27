@@ -31,6 +31,6 @@
     "@shellicar/build-version": "^1.3.2",
     "@shellicar/core-di": "^3.1.2",
     "@temporalio/worker": "^1.14.0",
-    "hono": "^4.11.3"
+    "hono": "^4.11.7"
   }
 }
