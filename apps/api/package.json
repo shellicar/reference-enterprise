@@ -12,7 +12,7 @@
     "start": "func start --port 7071 --language-worker -- \"--inspect --inspect-port 9071\""
   },
   "dependencies": {
-    "@apollo/server": "^5.2.0",
+    "@apollo/server": "^5.4.0",
     "@as-integrations/azure-functions": "^0.2.2",
     "@azure/functions": "^4.10.0",
     "@graphql-tools/schema": "^10.0.30",

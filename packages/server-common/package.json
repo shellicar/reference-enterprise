@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@apollo/server": "^5.2.0",
+    "@apollo/server": "^5.4.0",
     "@graphql-tools/schema": "^10.0.30",
     "@shellicar/core-di": "^3.1.2",
     "@shellicar/winston-azure-application-insights": "^6.0.3",
