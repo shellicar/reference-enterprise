@@ -19,11 +19,11 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.12.1",
+    "@nuxt/eslint": "^1.15.2",
     "eslint": "^9.39.2",
-    "nuxt": "^4.2.2",
+    "nuxt": "^4.3.1",
     "typescript": "^5.9.3",
-    "vue": "^3.5.26",
-    "vue-tsc": "^3.2.1"
+    "vue": "^3.5.29",
+    "vue-tsc": "^3.2.5"
   }
 }
